@@ -162,7 +162,7 @@ GAM_models_data_HCI <- GAM_estimation("HCI")
 
 # returns a function approximating scam smoothed ecdfs and its inverse by interpolation
 # to improve efficiency
-fast_approx_scam_cdf <- function(model, x_data, n_grid = 400) {
+fast_approx_scam_cdf <- function(model, x_data, n_grid = 500) {
   
   x_grid <- seq(min(x_data), max(x_data), length.out = n_grid)
   y_grid <- as.numeric(predict(model, newdata = data.frame(x1 = x_grid, x2 = x_grid, x3 = x_grid)))
@@ -192,8 +192,7 @@ get_parameters_smoothed_ecdfs_GAM <- function(mod1, mod2, mod3, SD_mod1, SD_mod2
   SD_preds1 <- SD_mod1(data_frame[idx1, ])
   SD_preds2 <- SD_mod2(data_frame[idx2, ])
   SD_preds3 <- SD_mod3(data_frame[idx3, ])
-  
-  # ecdfs 
+
   std_res1 <- residuals(mod1) / SD_preds1
   std_res2 <- residuals(mod2) / SD_preds2 
   std_res3 <- residuals(mod3) / SD_preds3
@@ -236,7 +235,7 @@ get_parameters_smoothed_ecdfs_GAM <- function(mod1, mod2, mod3, SD_mod1, SD_mod2
 # =============================================
 
 # Optimized smoothed ECDF ROC triples function
-cov_ROC_triples_GAM_smoothed_ecdf_fast_opt <- function(GAM_models_data_biomarker, params, cov_df, grid_len = 50) {
+cov_ROC_triples_GAM_smoothed_ecdf_fast_opt <- function(GAM_models_data_biomarker, params, cov_df, grid_len = 100) {
 
   mod1 <- GAM_models_data_biomarker$mod1
   mod2 <- GAM_models_data_biomarker$mod2
@@ -295,7 +294,7 @@ cov_ROC_triples_GAM_smoothed_ecdf_fast_opt <- function(GAM_models_data_biomarker
 # function obtaining VUS 
 # =============================================
 
-cov_VUS_trapz_GAM_smoothed_ecdf_fast_opt <- function(GAM_models_data_biomarker, params, cov_df, grid_len = 50) {
+cov_VUS_trapz_GAM_smoothed_ecdf_fast_opt <- function(GAM_models_data_biomarker, params, cov_df, grid_len = 100) {
   
   roc_surface <- cov_ROC_triples_GAM_smoothed_ecdf_fast_opt(GAM_models_data_biomarker, params, cov_df, grid_len = grid_len)
   

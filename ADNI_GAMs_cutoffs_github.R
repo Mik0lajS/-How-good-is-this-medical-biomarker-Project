@@ -172,7 +172,6 @@ get_parameters_ecdfs_GAM <- function(mod1, mod2, mod3, SD_mod1, SD_mod2, SD_mod3
   SD_preds2 <- SD_mod2(data_frame[idx2, ])
   SD_preds3 <- SD_mod3(data_frame[idx3, ])
   
-  # ecdfs 
   std_res1 <- residuals(mod1) / SD_preds1
   std_res2 <- residuals(mod2) / SD_preds2 
   std_res3 <- residuals(mod3) / SD_preds3
@@ -214,7 +213,6 @@ get_parameters_smoothed_ecdfs_GAM <- function(mod1, mod2, mod3, SD_mod1, SD_mod2
   SD_preds2 <- SD_mod2(data_frame[idx2, ])
   SD_preds3 <- SD_mod3(data_frame[idx3, ])
   
-  # ecdfs 
   std_res1 <- residuals(mod1) / SD_preds1
   std_res2 <- residuals(mod2) / SD_preds2 
   std_res3 <- residuals(mod3) / SD_preds3
@@ -255,7 +253,7 @@ get_parameters_smoothed_ecdfs_GAM <- function(mod1, mod2, mod3, SD_mod1, SD_mod2
 # =============================================
 
 # Optimized ROC triples function
-cov_ROC_triples_GAM_opt <- function(biomarker_range, GAM_models_data_biomarker, params, cov_df, grid_len = 300) {
+cov_ROC_triples_GAM_opt <- function(biomarker_range, GAM_models_data_biomarker, params, cov_df, grid_len = 200) {
   
   mod1 <- GAM_models_data_biomarker$mod1
   mod2 <- GAM_models_data_biomarker$mod2
@@ -419,7 +417,7 @@ cutoffs_bootstrap_VUS_GAM <- function(biomarker, cov_df, age_range = age_pred, n
     for (i in 1:length(age_pred)) {
       current_cov_df <- cov_df
       current_cov_df$AGE <- age_pred[i]
-      TPFs_current <- cov_ROC_triples_GAM_opt(biomarker_range, GAM_models_data_boot, params, current_cov_df, grid_len = 70)
+      TPFs_current <- cov_ROC_triples_GAM_opt(biomarker_range, GAM_models_data_boot, params, current_cov_df, grid_len = 200)
       
       if (all(is.na(TPFs_current$Index_vals))){
         bootstrap_results_c1[b, i] <- NA
@@ -586,7 +584,7 @@ for (comb in combinations_GAM) {
       APOE4 = factor(comb$apoe, levels = levels(data_baseline$APOE4))
     )
     
-    TPF_triples_current <- cov_ROC_triples_GAM_opt(HCI_range, GAM_models_data_HCI, params, current_cov_df, grid_len = 70)
+    TPF_triples_current <- cov_ROC_triples_GAM_opt(HCI_range, GAM_models_data_HCI, params, current_cov_df, grid_len = 200)
     idx <- which(TPF_triples_current$Index_vals == min(TPF_triples_current$Index_vals, na.rm = TRUE), arr.ind = TRUE)
     
     maximising_indices[1, i] <- mean(TPF_triples_current$c1_vec[idx[, "row"]])
@@ -667,7 +665,7 @@ for (comb in combinations_GAM) {
       APOE4 = factor(comb$apoe, levels = levels(data_baseline$APOE4))
     )
     
-    TPF_triples_current <- cov_ROC_triples_GAM_smoothed_ecdf_fast_opt(HCI_range, GAM_models_data_HCI, params, current_cov_df, grid_len = 70)
+    TPF_triples_current <- cov_ROC_triples_GAM_smoothed_ecdf_fast_opt(HCI_range, GAM_models_data_HCI, params, current_cov_df, grid_len = 200)
     idx <- which(TPF_triples_current$Index_vals == min(TPF_triples_current$Index_vals, na.rm = TRUE), arr.ind = TRUE)
     maximising_indices[1, i] <- mean(TPF_triples_current$c1_vec[idx[, "row"]])
     maximising_indices[2, i] <- mean(TPF_triples_current$c2_vec[idx[, "col"]])
