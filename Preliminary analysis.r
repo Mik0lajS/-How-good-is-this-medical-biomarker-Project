@@ -314,11 +314,11 @@ VUS_trapz <- function(y1, y2, y3) {
 par(mfrow = c(2, 2))
 
 # VUS for each biomarker
-print(Mann_Whitney_vectorised(y1_TAU, y2_TAU, y3_TAU))
-print(Mann_Whitney_vectorised(y1_PTAU, y2_PTAU, y3_PTAU))
-print(Mann_Whitney_vectorised(y1_HCI, y2_HCI, y3_HCI))
-print(Mann_Whitney_vectorised(y3_ABETA, y2_ABETA, y1_ABETA))
-print(Mann_Whitney_vectorised(-y1_ABETA, -y2_ABETA, -y3_ABETA))
+print(Mann_Whitney(y1_TAU, y2_TAU, y3_TAU))
+print(Mann_Whitney(y1_PTAU, y2_PTAU, y3_PTAU))
+print(Mann_Whitney(y1_HCI, y2_HCI, y3_HCI))
+print(Mann_Whitney(y3_ABETA, y2_ABETA, y1_ABETA))
+print(Mann_Whitney(-y1_ABETA, -y2_ABETA, -y3_ABETA))
 
 print(VUS_trapz(y1_TAU, y2_TAU, y3_TAU))
 print(VUS_trapz(y1_PTAU, y2_PTAU, y3_PTAU))
